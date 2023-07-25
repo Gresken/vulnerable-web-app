@@ -12,7 +12,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
         with:
-          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_api_key: ${{secrets.HEROKU_APIKEY}}
           heroku_app_name: "app-gresken" #Must be unique in Heroku
           heroku_email: ${{secrets.HEROKU_MAIL}}
           branch: "master"
