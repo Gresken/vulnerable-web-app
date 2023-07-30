@@ -67,7 +67,7 @@ jobs:
           output: 'trivy-results.json'
           severity: 'HIGH'
           exit-code: '1'
-        - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v3
         with:
           name: trivy
           path: trivy-results.json
