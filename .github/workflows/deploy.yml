@@ -103,7 +103,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: '16'
-      - run: npm audit  --registry=https://registry.npmjs.org/ --json > npmaudit-results.json
+      - run: npm audit --registry=https://registry.npmjs.org  --json > report_npmaudit.json
       - uses: actions/upload-artifact@v3
         with:
           name: npmaudit
