@@ -135,7 +135,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
+      - uses: akhileshns/heroku-deploy@v3.12.14 # This is the action
         with:
           heroku_api_key: ${{secrets.HEROKU_APIKEY}}
           heroku_app_name: "app-gresken" #el nombre que toma la App
@@ -145,29 +145,28 @@ jobs:
 
   # Vamos a ejecutar los escaneos DAST
 
-
-  # zap_scan:
-  #     runs-on: ubuntu-latest
-  #     needs: deploy-heroku
-  #     name: Run DAST scan on the web application
-  #     permissions:
-  #       #required for all workflows
-  #       security-events: write
-  #       actions: read
-  #       contents: read
-  #     steps:
-  #       - name: Checkout
-  #         uses: actions/checkout@v2
-  #         with:
-  #           ref: master
-  #       - name: ZAP Scan
-  #         uses: zaproxy/action-baseline@v0.6.1
-  #         with:
-  #           docker_name: 'owasp/zap2docker-stable'
-  #           target: 'https://gentile-gonzalo-8a21783a08a4.herokuapp.com/'
-  #           rules_file_name: '.zap/rules.tsv'
-  #           cmd_options: '-a'
-  #       - uses: actions/upload-artifact@v3
-  #         with:
-  #           name: owasp-report
-  #           path: testreport.* 
+  zap_scan:
+      runs-on: ubuntu-latest
+      needs: deploy-heroku
+      name: Run ZAP Scan - DAST
+      permissions:
+        #required for all workflows
+        security-events: write
+        actions: read
+        contents: read
+      steps:
+        - name: Checkout
+          uses: actions/checkout@v2
+          with:
+            ref: master
+        - name: ZAP Scan
+          uses: zaproxy/action-baseline@v0.8.2
+          with:
+            docker_name: 'owasp/zap2docker-stable'
+            target: 'https://app-gresken-8881f75fae1e.herokuapp.com/'
+            rules_file_name: '.zap/rules.tsv'
+            cmd_options: '-a'
+        - uses: actions/upload-artifact@v3
+          with:
+            name: owasp-report
+            path: testreport.* 
