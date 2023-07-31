@@ -76,34 +76,38 @@ jobs:
           name: trivy
           path: trivy-results.json
 
-  scan_npm:
-    name: npm audit
-    # Run NPM over GH Marketplace
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: install dependencies
-        run: npm ci
-      - uses: oke-py/npm-audit-action@v2
-        with:
-          audit_level: moderate
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          issue_assignees: oke-py
-          issue_labels: vulnerability,test
-          dedupe_issues: true
-
-  
-  # npm-audit:
-  # # validación de NPM para nodeJS - SAST
-  #   name: nmp audit
-  #   continue-on-error: true
+  # scan_npm:
+  #   name: npm audit
+  #   # Run NPM over GH Marketplace
   #   runs-on: ubuntu-latest
   #   steps:
   #     - uses: actions/checkout@v3
-  #     - uses: actions/setup-node@v3
+  #     - name: install dependencies
+  #       run: npm ci
+  #     - uses: oke-py/npm-audit-action@v2
   #       with:
-  #         node-verion: '16'
-  #     - run: npm audit 
+  #         audit_level: moderate
+  #         github_token: ${{ secrets.GITHUB_TOKEN }}
+  #         issue_assignees: oke-py
+  #         issue_labels: vulnerability,test
+  #         dedupe_issues: true
+
+  
+  npm-audit:
+  # validación de NPM para nodeJS - SAST
+    name: nmp audit
+    continue-on-error: true
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-verion: '16'
+      - run: npm audit --json --registry https://registry.npmjs.org/ > npmaudit-results.json
+      - uses: actions/upload-artifact@v3
+        with:
+          name: npmaudit
+          path: npmaudit-results.json
 
 
   # deploy-heroku:
