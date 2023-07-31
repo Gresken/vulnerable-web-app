@@ -36,6 +36,10 @@ jobs:
   # User trivy for SAST 
     name: Trivy Scan
     runs-on: ubuntu-20.04
+    permissions: 
+      security-events: write
+      actions: read
+      contents: read
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
