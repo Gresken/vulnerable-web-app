@@ -96,14 +96,14 @@ jobs:
   npm-audit:
   # validación de NPM para nodeJS - SAST
     name: nmp audit
-    continue-on-error: true
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
           node-version: '16'
-      - run: npm audit --registry=https://registry.npmjs.org  --json > report_npmaudit.json
+      - run: npm audit --registry=https://registry.npmjs.org  --json > npmaudit-results.json
+        continue-on-error: true
       - uses: actions/upload-artifact@v3
         with:
           name: npmaudit
