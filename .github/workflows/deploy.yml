@@ -156,16 +156,15 @@ jobs:
         actions: read
         contents: read
       steps:
-        - name: Checkout
-          uses: actions/checkout@v2
-          with:
-            ref: master
+        # - name: Checkout
+        #   uses: actions/checkout@v2
+        #   with:
+        #     ref: master
         - name: ZAP Scan
           uses: zaproxy/action-full-scan@v0.5.1
           with:
             docker_name: 'owasp/zap2docker-stable'
             target: 'https://app-gresken-8881f75fae1e.herokuapp.com/'
-            rules_file_name: '.zap/rules.tsv'
             cmd_options: '-a'
         - uses: actions/upload-artifact@v3
           with:
