@@ -110,6 +110,7 @@ jobs:
           path: npmaudit-results.json
 
   GitGuardian:
+    # validación de GitGuardian - SAST
     name: GitGuardian scan
     runs-on: ubuntu-latest
     steps:
