@@ -16,7 +16,7 @@ jobs:
     - uses: actions/checkout@v3
     - name: Install Hadolint
       continue-on-error: true
-      run: docker run --rm -i hadolint/hadolint < Dockerfile
+      run: docker run --rm -i hadolint/hadolint > Dockerfile
 
   secrets:
   # SAST secrets on code
@@ -172,7 +172,7 @@ jobs:
           uses: actions/upload-artifact@v3
           with:
             name: zap_scan
-            path: testreport.* 
+            path: './testreport.*' 
   
   Snyk:
     # Vamos a correr el analisis de Snyk free
@@ -194,4 +194,4 @@ jobs:
       - name: Upload result to GitHub Code Scanning
         uses: github/codeql-action/upload-sarif@v2
         with:
-          sarif_file: snyk.sarif
+          sarif_file: './snyk.sarif'
