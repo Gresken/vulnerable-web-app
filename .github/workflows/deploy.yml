@@ -171,8 +171,8 @@ jobs:
         - name: ZAP Upload
           uses: actions/upload-artifact@v3
           with:
-            name: zap-dast
-            path: zap-dast
+            name: zap_scan
+            path: testreport.* 
   
   Snyk:
     # Vamos a correr el analisis de Snyk free
@@ -194,4 +194,4 @@ jobs:
       - name: Upload result to GitHub Code Scanning
         uses: github/codeql-action/upload-sarif@v2
         with:
-          sarif_file: 'snyk.sarif'
+          sarif_file: snyk.sarif
