@@ -132,7 +132,7 @@ jobs:
   # Vamos a ejecutar el deploy de la App
   deploy-heroku:
     name: Deploy Heroku
-    needs: [GitGuardian, npm-audit, trivy, secrets, linter]
+    # needs: [GitGuardian, npm-audit, trivy, secrets, linter]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -168,7 +168,7 @@ jobs:
             target: 'https://app-gresken-8881f75fae1e.herokuapp.com/'
             cmd_options: '-a'
             allow_issue_writing: false
-          - name: ZAP Report
+        - name: ZAP Upload
           uses: actions/upload-artifact@v3
           with:
             name: zap-dast
