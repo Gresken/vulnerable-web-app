@@ -168,10 +168,11 @@ jobs:
             target: 'https://app-gresken-8881f75fae1e.herokuapp.com/'
             cmd_options: '-a'
             allow_issue_writing: false
-        - uses: actions/upload-artifact@v3
+          - name: ZAP Report
+          uses: actions/upload-artifact@v3
           with:
-            name: zap-report
-            path: testreport.* 
+            name: zap-dast
+            path: zap-dast
   
   Snyk:
     # Vamos a correr el analisis de Snyk free
