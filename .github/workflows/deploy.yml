@@ -6,6 +6,8 @@ on:
       - master
 
 jobs:
+
+  # Vamos a ejecutar los escaneos SAST
   linter:
   # validación de dockerfile previo al analisis SAST
     name: linter dockerfile
@@ -126,20 +128,24 @@ jobs:
           GITHUB_PULL_BASE_SHA:  ${{ github.event.pull_request.base.sha }}
           GITHUB_DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
           GITGUARDIAN_API_KEY: ${{ secrets.GITGUARDIAN_APIKEY }}
+  
+  # Vamos a ejecutar el deploy de la App
+  deploy-heroku:
+    name: Deploy Heroku
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
+        with:
+          heroku_api_key: ${{secrets.HEROKU_APIKEY}}
+          heroku_app_name: "app-gresken" #el nombre que toma la App
+          heroku_email: ${{secrets.HEROKU_MAIL}}
+          branch: "master"
+          usedocker: true
+
+  # Vamos a ejecutar los escaneos DAST
 
 
-  # deploy-heroku:
-  #   name: Deploy Heroku
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
-  #       with:
-  #         heroku_api_key: ${{secrets.HEROKU_APIKEY}}
-  #         heroku_app_name: "app-gresken" #Must be unique in Heroku
-  #         heroku_email: ${{secrets.HEROKU_MAIL}}
-  #         branch: "master"
-  #         usedocker: true
   # zap_scan:
   #     runs-on: ubuntu-latest
   #     needs: deploy-heroku
