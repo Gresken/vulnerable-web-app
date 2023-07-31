@@ -132,6 +132,7 @@ jobs:
   # Vamos a ejecutar el deploy de la App
   deploy-heroku:
     name: Deploy Heroku
+    needs: [GitGuardian, npm-audit, trivy, secrets, linter]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -148,7 +149,7 @@ jobs:
   zap_scan:
       runs-on: ubuntu-latest
       needs: deploy-heroku
-      name: Run ZAP Scan - DAST
+      name: Run ZAP Full Scan - DAST
       permissions:
         #required for all workflows
         security-events: write
@@ -160,7 +161,7 @@ jobs:
           with:
             ref: master
         - name: ZAP Scan
-          uses: zaproxy/action-baseline@v0.8.2
+          uses: zaproxy/action-full-scan@v0.5.1
           with:
             docker_name: 'owasp/zap2docker-stable'
             target: 'https://app-gresken-8881f75fae1e.herokuapp.com/'
