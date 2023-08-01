@@ -8,7 +8,7 @@ on:
 jobs:
 
   # Vamos a ejecutar los escaneos SAST
-  linter:
+  hadolint:
   # validación de dockerfile previo al analisis SAST
     name: linter dockerfile
     runs-on: ubuntu-latest
@@ -168,11 +168,11 @@ jobs:
             target: 'https://app-gresken-8881f75fae1e.herokuapp.com/'
             cmd_options: '-a'
             allow_issue_writing: false
-        - name: ZAP Upload
-          uses: actions/upload-artifact@v3
-          with:
-            name: zap_scan
-            path: './testreport.*' 
+        # - name: ZAP Upload
+        #   uses: actions/upload-artifact@v3
+        #   with:
+        #     name: zap_scan
+        #     path: './testreport.*' 
   
   Snyk:
     # Vamos a correr el analisis de Snyk free
